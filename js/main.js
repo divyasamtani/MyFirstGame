@@ -1,8 +1,7 @@
-console.log("Linked.");
-
 $(document).ready(function(){
+  var game = new Game();
 
-
+  game.start();
 
 //   // Easy Name Variables
 //   var easyLevelOne = {names: [], color: ##};
@@ -60,4 +59,4 @@ $(document).ready(function(){
 //   var gameScore = 0;
 
 
-})
+});

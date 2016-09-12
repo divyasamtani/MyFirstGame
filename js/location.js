@@ -25,7 +25,6 @@ var Location = function(opts){
    *  Create div with the scrambled name
    */
   var create = function(that){
-    position.x: Math.round(Math.random() * (#gameboard.width - randomWidth*3));
     that.element = $('<div class="location"></div>').text(that.scrambled);
     that.element.css('left', position.x + "px");
   };
@@ -40,4 +39,4 @@ var Location = function(opts){
     position.y += dropSpeed;
     this.element.css('top', position.y + "px");
   }
-}
+};
