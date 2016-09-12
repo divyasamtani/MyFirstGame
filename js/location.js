@@ -1,46 +1,43 @@
-var Location = function(name){
+var Location = function(opts){
+  this.element  = null;
 
-  var name = name;
-  var position = {
-    x:50,
-    y:0
+  var name      = opts.name;
+  var scrambled = null;
+  var dropSpeed = opts.dropSpeed;
+  var position  = {
+    x: opts.x,
+    y: opts.y
   };
-
-  var dropSpeed = 0.5;
-  var element = null;
-
 
   /*
    *  Scramble name
    */
-  function scrambleName (Location.name){
-    var word= name.value.split('');
-    var scram= '';
-    while(word.length){
-        scram+= word.splice(Math.floor(Math.random()*word.length), 1)[0];
+  var scrambleName = function (that){
+    var characters = name.split('');
+    var scrambled  = '';
+    while(characters.length){
+      scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0];
     }
-    return scram;
-  }
-
-  scrambleName({value:'xxx'});
+    that.scrambled = scrambled
+  };
 
   /*
    *  Create div with the scrambled name
    */
-  var create = function(){
-    element = $('<div class="location"></div>').text(scrambleName());
-    $('#gameboard').append(element);
-    $(element).css('left', position.x + "px");
-  }
+  var create = function(that){
+    position.x: Math.round(Math.random() * (#gameboard.width - randomWidth*3));
+    that.element = $('<div class="location"></div>').text(that.scrambled);
+    that.element.css('left', position.x + "px");
+  };
+
+  scrambleName(this);
+  create(this);
 
   /*
    *  Move the location downwards
    */
   this.render = function(){
     position.y += dropSpeed;
-    $(element).css('top', position.y + "px");
-
+    this.element.css('top', position.y + "px");
   }
-
-  create();
 }
