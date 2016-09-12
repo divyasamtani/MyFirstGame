@@ -1,0 +1,15 @@
+#gameboard {
+  border: 5px solid black;
+  height: 500px;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  position:relative;
+  overflow:hidden;
+}
+
+
+.location {
+  position: absolute;
+  background-color: pink;
+}
