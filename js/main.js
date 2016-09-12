@@ -1,7 +1,10 @@
 $(document).ready(function(){
-  var game = new Game();
 
+  var game = new Game();
   game.start();
+
+  // $("button#startgame").on("click", game.start);
+});
 
 //   // Easy Name Variables
 //   var easyLevelOne = {names: [], color: ##};
@@ -20,43 +23,5 @@ $(document).ready(function(){
 //   var hardLevelThreeSea = {names: [], color: ##};
 //   var hardLevelThreeGulf = {names: [], color: ##};
 //   var hardLevelThreeLake = {names: [], color: ##};
-//   var hardLevelThreeRiver = {names: [], color: ##};
+//   var hardLevel
 
-
-//   // Game Board
-//   var gameBoard = function () {
-//     this.height = height;
-//     this.width = width;
-//   }
-
-//   // Falling Names
-//   var nameBlock = function (difficulty, level, category, x, y) {
-//     this.difficulty = [easy, hard];
-//     this.level = level;
-//     this.category = category;
-//     this.x = x;
-//     this.y = y;
-//   }
-
-//   // Level Speed
-//   var Level = function (levelNumber) {
-//     this.speed = speed;
-//   }
-
-
-//   // Score Tracker
-//   var scoreTracker = function (score) {
-//     scoreTracker.text="SCORE: " + ##;
-//   };
-
-//   // Timer
-//   var Timer;
-
-
-
-//   // Initiatlisation*******************************************************************
-//   var level = 1;
-//   var gameScore = 0;
-
-
-});

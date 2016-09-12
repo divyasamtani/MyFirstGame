@@ -18,7 +18,7 @@ var Location = function(opts){
     while(characters.length){
       scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0];
     }
-    that.scrambled = scrambled
+    that.scrambled = scrambled;
   };
 
   /*
@@ -38,5 +38,11 @@ var Location = function(opts){
   this.render = function(){
     position.y += dropSpeed;
     this.element.css('top', position.y + "px");
-  }
+  };
+
+  this.collision = function (gameHeight) {
+    if (position.y >= gameHeight) {
+      return true;
+    }
+  };
 };

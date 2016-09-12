@@ -1,3 +1,4 @@
 var locationDatabase = function () {
-  return ["London", "Berlin", "Amsterdam"];
+  return ["Amsterdam", "Ankara", "Athens", "Baghdad", "Bangkok", "Beijing", "Beirut", "Berlin", "Bern", "Bogota", "Brasilia", "Brussels", "Bucharest",
+          "Budapest", "Cairo", "Canberra", "Caracas", "Copenhagen", "Dhaka", "Djibouti", "Damascus", "Doha", "Dublin", "Gibraltar", "Hanoi", "Havana", "Helsinki", "Islamabad", "Jakarta", "Jerusalem", "Kabul", "Kathmandu", "Kingston", "Lima", "Lisbon", "London", "Luxembourg", "Madrid", "Manila", "Monaco", "Moscow", "Nairobi", "Nassau", "New Delhi", "Oslo", "Ottawa", "Paris", "Prague", "Quito", "Reykjavik", "Riyadh", "Rome", "Santiago", "Seoul", "Singapore", "Stockholm", "Taipei", "Tehran", "Tokyo", "Tripoli", "Vienna", "Vientiane", "Warsaw", "Washington", "Wellington"];
 };
