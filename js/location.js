@@ -1,4 +1,5 @@
-//LOCATION NAME OBJECT and PROPERTIES
+// LOCATION OBJECT
+
 var Location = function(opts){
   this.element   = null;
 
@@ -12,14 +13,15 @@ var Location = function(opts){
     y: opts.y
   };
 
-  //SCRAMBLES THE NAME
+  // SCRAMBLES THE NAME
   var scrambleName = function (that){
     var characters = name.split('');
     var scrambled  = '';
     while(characters.length){
       scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0];
     }
-    that.scrambled = scrambled;
+    // that.scrambled = scrambled;
+    that.scrambled = name
   };
 
   // CREATES WORD DIV AND USES SCRAMBLE FUNCTION
@@ -35,7 +37,7 @@ var Location = function(opts){
   create(this);
 
   this.matchWord = function(textBox){
-    return textBox === name;
+    return textBox.toUpperCase() === name;
   };
 
   // RENDERS BLOCK AND MOVES IT DOWNWARDS
