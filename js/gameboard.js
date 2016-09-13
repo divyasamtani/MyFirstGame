@@ -23,12 +23,13 @@ var Game = function(){
   var timeRemain        = null;
   var locations         = [];
   var locationDatabase  = window.locationDatabase();
+  var textBox           = "";
 
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 200;
+  var generationDelay   = 1000000;
   var generationControl = true;
-  var dropSpeed         = 5;
+  var dropSpeed         = 0.1;
   var lifeLimit         = 3;
   var timerLimit        = 10000; //60 seconds
   var locationYStart    = 0;
@@ -71,7 +72,16 @@ var Game = function(){
     $('#timer').text(timeRemain / 1000);
   };
 
-  //GAME LOOP OBJECT
+  //MATCH KEY INPUT WITH LOCATION ON SCREEN
+  var keyInput = function () {
+    $('#inputForm').keydown(function(event){
+      if(event.keyCode == 13) {
+        textBox = $(event.target).val();
+      }
+    });
+  };
+
+  //MAIN GAME LOOP OBJECT
   var loop = function() {
     var newTime = new Date().getTime(); //Sets the delay between names generated
     if (generationControl && currentTime + generationDelay <= newTime) { //Allows for control over the generation delay
@@ -83,7 +93,9 @@ var Game = function(){
     var locationsToRemove = [];
     for (var i = 0; i < locations.length; i++) {
       locations[i].render(); // renders and moves the blocks downwards
-      if (locations[i].collision(gameHeight)) { // refers to collision detection function
+      if (locations[i].matchWord(textBox)){
+        locationsToRemove.push(i);
+      } else if (locations[i].collision(gameHeight)) { // refers to collision detection function
         locationsToRemove.push(i); //pushes collided name to 'remove' array
         lifeLimit --; //reduce one life from total count
       }
@@ -112,5 +124,6 @@ var Game = function(){
     timeRemain = timerLimit; // Time remaining = 60 seconds
     generateLocation(); // Blocks start generating
     animloop(); // Starts game / animation loop / generation of names
+    keyInput ();
   };
 };

@@ -21,9 +21,16 @@ h1 {
 #inputForm {
   height: 50px;
   width: 200px;
-  margin-left: 550px;
-  margin-top: 50px;
+  margin-left: 600px;
+  margin-top: 10px;
   margin-bottom: 100px;
+
+}
+
+label {
+  display: block;
+  margin-left: 600px;
+  margin-top: 20px;
 
 }
 

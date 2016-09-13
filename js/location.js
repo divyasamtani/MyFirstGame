@@ -34,6 +34,10 @@ var Location = function(opts){
   scrambleName(this);
   create(this);
 
+  this.matchWord = function(textBox){
+    return textBox === name;
+  };
+
   // RENDERS BLOCK AND MOVES IT DOWNWARDS
   this.render = function(){
     position.y += dropSpeed;
