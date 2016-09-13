@@ -2,7 +2,7 @@
   border: 5px solid black;
   height: 500px;
   margin: auto;
-  width: 50%;
+  width: 1000px;
   padding: 10px;
   position:relative;
   overflow:hidden;
@@ -13,3 +13,17 @@
   position: absolute;
   background-color: pink;
 }
+
+h1 {
+  text-align: center;
+}
+
+#inputForm {
+  height: 50px;
+  width: 200px;
+  margin-left: 550px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+
+}
+
