@@ -1,15 +1,14 @@
-/* @font-face { font-family: Delicious; src: url('Delicious-Roman.otf'); }
-*/
 
 #topbar {
   color: white;
   background-color: black;
   text-align: center;
-  font-size: 30px;
-  padding-top: 20px;
-  height: 60px;
+  font-size: 50px;
+  padding-top: 10px;
+  height: 80px;
   margin: auto 0;
-
+  font-family: 'Chewy', cursive;
+  text-transform: uppercase;
 }
 
 #menu {
@@ -19,9 +18,11 @@
   text-align: center;
   padding: 50px;
   border: solid black 2px;
-  margin-left: 140px;
-  margin-top: 80px;
+  margin-left: 160px;
+  margin-top: 60px;
+  padding-top: 10px;
   background-color: #d4e5ff;
+  font-family: 'Gudea', sans-serif;
 }
 
 #startgame {
@@ -40,6 +41,8 @@
   position:relative;
   overflow:hidden;
   margin-top: 20px;
+  font-family: 'Josefin Sans', sans-serif;
+
 }
 
 #timer {
@@ -47,7 +50,7 @@
   margin: 10px;
   width: 150px;
   border: solid black 2px;
-  background-color: #e4ffd4;
+  background-color: #ccffe6;
   border-radius: 25px;
 }
 
@@ -63,43 +66,53 @@
 
 .location {
   position: absolute;
-  background-color: pink;
+  padding: 5px;
+  background-color: #ffffe6;
 }
 
-h1 {
-  text-align: center;
-}
 
 #inputForm {
   height: 50px;
-  width: 200px;
+  width: 210px;
   margin-left: 600px;
   margin-top: 10px;
   margin-bottom: 50px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+  text-transform: uppercase;
+
 }
 
 label {
   display: block;
-  margin-left: 610px;
+  margin-left: 635px;
+  font-size: 20px;
   margin-top: 20px;
+  font-family: 'Gudea', sans-serif;
 
 }
 
 #playagain {
   height: 150px;
   width: 400px;
-  margin-left: 200px;
-  margin-top: 50px;
+  margin-left: 205px;
+  margin-top: 30px;
   font-size: 30px;
+  background-color: #d4e5ff;
+  border: solid black 2px;
+  font-family: 'Josefin Sans', sans-serif;
 
 }
 
-#secondlevel {
+#nextlevel {
   height: 150px;
   width: 400px;
-  margin-left: 200px;
-  margin-top: 50px;
+  margin-left: 205px;
+  margin-top: 30px;
   font-size: 30px;
+  background-color: #d4e5ff;
+  border: solid black 2px;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 background-image {

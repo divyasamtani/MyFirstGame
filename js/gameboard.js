@@ -12,7 +12,7 @@ return  window.requestAnimationFrame       ||
 // MAIN GAME OBJECT
 var Game = function(){
 
-  var $gameboard = $('#gameboard').css('background-image', 'url("images/city2.jpg")'); // Gameboard reference
+  var $gameboard = $('#gameboard').css('background-image', 'url("images/city3.png")'); // Gameboard reference
   var gameWidth  = $gameboard.width(); // Width of gameboard
   var gameHeight = $gameboard.height(); // Height of gameboard
   var gameLoop   = null;
@@ -27,11 +27,11 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 1000;
+  var generationDelay   = 2000;
   var generationControl = true;
-  var dropSpeed         = 0.1;
+  var dropSpeed         = 0.5;
   var lifeLimit         = 3;
-  var timerLimit        = 5000; // 60 seconds
+  var timerLimit        = 10000; // 60 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
@@ -82,7 +82,8 @@ var Game = function(){
     locationDatabase  = [];
     textBox           = "";
     $(".location").remove();
-    $("#secondlevel").remove();
+    $("#nextlevel").remove();
+    $("#inputForm").val("");
     animloop();
 
     console.log("Change backgound to level: " + level);
@@ -92,7 +93,7 @@ var Game = function(){
     }
 
     if(level == 2){
-      $('#gameboard').css('background-image', 'url("images/underwater1.jpeg")');
+      $('#gameboard').css('background-image', 'url("images/underwater4.jpg")');
     }
   }
 
@@ -102,7 +103,7 @@ var Game = function(){
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame();
       level = 0;
-      $('#gameboard').append($('<button id="playagain"></button>').text('Game over! Do you want to play again?'));
+      $('#gameboard').append($('<button id="playagain"></button>').text('Game Over! Do you Want to Play Again?'));
     } else if (lifeLimit > 0 && timeRemain <= 0 ) { // Else if lives > 0 when timer = 0, player wins
       stopGame();
 
@@ -111,16 +112,18 @@ var Game = function(){
       console.log("Display button for level: " + level);
 
       if(level == 1){
-        $('#gameboard').append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
+        $('#gameboard').append($('<button id="nextlevel"></button>').text('Well Done! On to Round 2 - Beach Destinations.'));
+        $(".location").css("background-color", "red");
       }
 
       if(level == 2){
-        $('#gameboard').append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
+        $('#gameboard').append($('<button id="nextlevel"></button>').text('Very Nice! On to the Final Round - Bodies of Water.'));
+        // $('.location').css('background-color': 'blue')
       }
 
       if(level == 3){
         level = 0;
-        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats you win!!'));
+        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats, You Win! You are one Serious Traveler.'));
       }
     }
   };
@@ -132,7 +135,7 @@ var Game = function(){
     var timePast = timeNow - timeStarted;
     timeRemain   = timerLimit - timePast;
     timeRemain   = Math.round(timeRemain / 1000);
-    $('#timer').text("Time" + " " + "=" + " " + timeRemain + " " +"seconds"); // Displays time remaining on the timer
+    $('#timer').text("Time" + " " + "=" + " " + timeRemain + " " +"Seconds"); // Displays time remaining on the timer
   };
 
   // MATCH KEY INPUT WITH LOCATION ON SCREEN
@@ -164,6 +167,7 @@ var Game = function(){
       } else if (locations[i].collision(gameHeight)) { // Detects collision
         locationsToRemove.push(i); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
+        $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
 
       }
     }
@@ -199,7 +203,7 @@ var Game = function(){
     $("#timer").show();
     $("#label").show();
     $("#inputForm").show();
-    $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "left"); // Displays lives remaining
+    $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
 
 
   };
@@ -218,7 +222,7 @@ var Game = function(){
     $("#playagain").remove();
     generateLocation();
     animloop();
-    $('#gameboard').css('background-image', 'url("images/city2.jpg")');
+    $('#gameboard').css('background-image', 'url("images/city3.png")');
   };
 
 };
