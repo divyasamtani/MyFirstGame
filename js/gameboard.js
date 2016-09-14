@@ -12,7 +12,7 @@ return  window.requestAnimationFrame       ||
 // MAIN GAME OBJECT
 var Game = function(){
 
-  var $gameboard = $('#gameboard').css('background-image', 'url("images/cityimage.jpeg")'); // Gameboard reference
+  var $gameboard = $('#gameboard').css('background-image', 'url("images/city2.jpg")'); // Gameboard reference
   var gameWidth  = $gameboard.width(); // Width of gameboard
   var gameHeight = $gameboard.height(); // Height of gameboard
   var gameLoop   = null;
@@ -27,15 +27,36 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 100;
+  var generationDelay   = 1000;
   var generationControl = true;
-  var dropSpeed         = 10;
+  var dropSpeed         = 0.1;
   var lifeLimit         = 3;
   var timerLimit        = 5000; // 60 seconds
   var locationYStart    = 0;
 
 
-  // PICKS RANDOM LOCATION NAME FROM DATABASE
+// PICKS RANDOM LOCATION NAME FROM DATABASE *****************************
+
+ // Level 3
+  var pickRandomLocation3 = function () {
+    if (locationDatabase.length === 0){
+      locationDatabase  = window.locationDatabase3(); // Call global locationDatabase if local one is empty, which it is
+    }
+    var randomIndex = Math.floor(Math.random() * (locationDatabase.length-1)); // Generates a random index number to pick from the location database
+    return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
+  };
+
+  // Level 2
+  var pickRandomLocation2 = function () {
+    if (locationDatabase.length === 0){
+      locationDatabase  = window.locationDatabase2(); // Call global locationDatabase if local one is empty, which it is
+    }
+    var randomIndex = Math.floor(Math.random() * (locationDatabase.length-1)); // Generates a random index number to pick from the location database
+    return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
+  };
+
+
+  // Level 1
   var pickRandomLocation = function () {
     if (locationDatabase.length === 0){
       locationDatabase  = window.locationDatabase(); // Call global locationDatabase if local one is empty, which it is
@@ -44,32 +65,51 @@ var Game = function(){
     return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
   };
 
-  // CREATES NEW LOCATION ELEMENT WITH RANDOM, SCRAMBLED NAME
+// CREATES NEW LOCATION ELEMENT WITH RANDOM, SCRAMBLED NAME ***************
+
+  // Level 3
+  var generateLocation3 = function () {
+    var newLocation = new Location({name: pickRandomLocation3(), dropSpeed: dropSpeed, y: locationYStart, gameboard: $gameboard});
+    // Creates a new Location element using the randomly generated location
+    locations.push(newLocation); // Pushes the new Location OBJECT to an empty array
+  };
+
+  // Level 2
+  var generateLocation2 = function () {
+    var newLocation = new Location({name: pickRandomLocation2(), dropSpeed: dropSpeed, y: locationYStart, gameboard: $gameboard});
+    // Creates a new Location element using the randomly generated location
+    locations.push(newLocation); // Pushes the new Location OBJECT to an empty array
+  };
+
+  // Level 1
   var generateLocation = function () {
     var newLocation = new Location({name: pickRandomLocation(), dropSpeed: dropSpeed, y: locationYStart, gameboard: $gameboard});
     // Creates a new Location element using the randomly generated location
     locations.push(newLocation); // Pushes the new Location OBJECT to an empty array
   };
 
+
+// STANDARD GAME FUNCTIONS **************************************************
+
  // STOP GAME - STOPS THE ANIMATION FRAME
-  var stopGame = function (message) { // Passes one of two messages through
+  var stopGame = function () { // Passes one of two messages through
     window.cancelAnimationFrame(gameLoop);
     gameLoop = null;
 
     for (var i = 0; i < locations.length; i++) { // Remove locations before displaying "play again" message
       locations[i].element.remove();
     }
-    $gameboard.append($('<button id="playagain"></button>').text(message)); // Display "Play again?"" message
-
   };
 
-  // CHECK WIN or LOSE FUNCTION - IF TIMER RUNS OUT AND LIFELIMIT > 0
+  // CHECK WIN or LOSE
   var checkWinLose = function (newTime) {
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
-      stopGame('Game over! Do you want to play again?'); //
+      stopGame();
+      $gameboard.append($('<button id="playagain"></button>').text('Game over! Do you want to play again?'));
 
     } else if (lifeLimit > 0 && timeRemain <= 0) { // Else if lives > 0 when timer = 0, player wins
-      stopGame('Amazing, you win! Do you want to play again?');
+      stopGame();
+      $gameboard.append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
     }
   };
 
@@ -112,7 +152,6 @@ var Game = function(){
       } else if (locations[i].collision(gameHeight)) { // Detects collision
         locationsToRemove.push(i); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
-        $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "left"); // Displays lives remaining
 
       }
     }
@@ -123,16 +162,17 @@ var Game = function(){
       locations[index].element.remove(); // Physically remove that object off the gameboard
       locations.splice(index, 1); // Splice or remove that element from the locations array
     }
-
     countDownTime();
     checkWinLose(newTime);
   }; //END OF GAME LOOP
+
 
   // ANIMATION LOOP FUNCTION
   var animloop = function () {
     gameLoop = window.requestAnimFrame(animloop);
     loop();
   };
+
 
   // START GAME FUNCTION
   this.start = function () {
@@ -147,9 +187,12 @@ var Game = function(){
     $("#timer").show();
     $("#label").show();
     $("#inputForm").show();
+    $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "left"); // Displays lives remaining
+
+
   };
 
-  // PLAY AGAIN FUNCTION
+  // PLAY AGAIN
   this.startGameAgain = function () {
     timeStarted       = new Date().getTime();
     currentTime       = new Date().getTime();
@@ -164,4 +207,37 @@ var Game = function(){
     generateLocation();
     animloop();
   };
+
+  // SECOND LEVEL
+  this.proceedSecondLevel = function () {
+    timeStarted       = new Date().getTime();
+    currentTime       = new Date().getTime();
+    timeRemain        = timerLimit;
+    score             = 0;
+    locations         = [];
+    locationDatabase  = [];
+    textBox           = "";
+    $(".location").remove();
+    $("#secondlevel").remove();
+    var $gameboard = $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
+    generateLocation2();
+    animloop();
+  };
+
+  // THIRD LEVEL
+  this.proceedThirdLevel = function () {
+    timeStarted       = new Date().getTime();
+    currentTime       = new Date().getTime();
+    timeRemain        = timerLimit;
+    score             = 0;
+    locations         = [];
+    locationDatabase  = [];
+    textBox           = "";
+    $(".location").remove();
+    $("#secondlevel").remove();
+    var $gameboard = $('#gameboard').css('background-image', 'url("images/###background.jpeg")');
+    generateLocation2();
+    animloop();
+  };
+
 };

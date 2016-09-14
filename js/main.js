@@ -7,6 +7,9 @@ $(document).ready(function(){
   $("#label").hide();
   $("#inputForm").hide();
   $("button#startgame").on("click", game.start);
+  $(document).on("click","button#secondlevel", game.proceedSecondLevel);
   $(document).on("click","button#playagain", game.startGameAgain);
+
+
 });
 
