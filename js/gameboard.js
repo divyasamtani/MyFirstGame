@@ -34,52 +34,23 @@ var Game = function(){
   var timerLimit        = 5000; // 60 seconds
   var locationYStart    = 0;
 
+  var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
+  var level             =  0;
+
 
 // PICKS RANDOM LOCATION NAME FROM DATABASE *****************************
-
- // Level 3
-  var pickRandomLocation3 = function () {
-    if (locationDatabase.length === 0){
-      locationDatabase  = window.locationDatabase3(); // Call global locationDatabase if local one is empty, which it is
-    }
-    var randomIndex = Math.floor(Math.random() * (locationDatabase.length-1)); // Generates a random index number to pick from the location database
-    return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
-  };
-
-  // Level 2
-  var pickRandomLocation2 = function () {
-    if (locationDatabase.length === 0){
-      locationDatabase  = window.locationDatabase2(); // Call global locationDatabase if local one is empty, which it is
-    }
-    var randomIndex = Math.floor(Math.random() * (locationDatabase.length-1)); // Generates a random index number to pick from the location database
-    return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
-  };
 
 
   // Level 1
   var pickRandomLocation = function () {
     if (locationDatabase.length === 0){
-      locationDatabase  = window.locationDatabase(); // Call global locationDatabase if local one is empty, which it is
+      locationDatabase  = window[databases[level]]; // Call global locationDatabase if local one is empty, which it is
     }
     var randomIndex = Math.floor(Math.random() * (locationDatabase.length-1)); // Generates a random index number to pick from the location database
     return locationDatabase.splice(randomIndex, 1)[0]; // Removes the picked element from the locationDatabase and returns the index - ensures there are no duplicates
   };
 
 // CREATES NEW LOCATION ELEMENT WITH RANDOM, SCRAMBLED NAME ***************
-
-  // Level 3
-  var generateLocation3 = function () {
-    var newLocation = new Location({name: pickRandomLocation3(), dropSpeed: dropSpeed, y: locationYStart, gameboard: $gameboard});
-    // Creates a new Location element using the randomly generated location
-    locations.push(newLocation); // Pushes the new Location OBJECT to an empty array
-  };
-
-  // Level 2
-  var generateLocation2 = function () {
-    var newLocation = new Location({name: pickRandomLocation2(), dropSpeed: dropSpeed, y: locationYStart, gameboard: $gameboard});
-    // Creates a new Location element using the randomly generated location
-    locations.push(newLocation); // Pushes the new Location OBJECT to an empty array
-  };
 
   // Level 1
   var generateLocation = function () {
@@ -101,15 +72,56 @@ var Game = function(){
     }
   };
 
+  this.nextLevel = function() {
+
+    timeStarted       = new Date().getTime();
+    currentTime       = new Date().getTime();
+    timeRemain        = timerLimit;
+    score             = 0;
+    locations         = [];
+    locationDatabase  = [];
+    textBox           = "";
+    $(".location").remove();
+    $("#secondlevel").remove();
+    animloop();
+
+    console.log("Change backgound to level: " + level);
+
+    if(level == 1){
+      $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
+    }
+
+    if(level == 2){
+      $('#gameboard').css('background-image', 'url("images/underwater1.jpeg")');
+    }
+  }
+
+
   // CHECK WIN or LOSE
   var checkWinLose = function (newTime) {
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame();
-      $gameboard.append($('<button id="playagain"></button>').text('Game over! Do you want to play again?'));
-
-    } else if (lifeLimit > 0 && timeRemain <= 0) { // Else if lives > 0 when timer = 0, player wins
+      level = 0;
+      $('#gameboard').append($('<button id="playagain"></button>').text('Game over! Do you want to play again?'));
+    } else if (lifeLimit > 0 && timeRemain <= 0 ) { // Else if lives > 0 when timer = 0, player wins
       stopGame();
-      $gameboard.append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
+
+      level++;
+
+      console.log("Display button for level: " + level);
+
+      if(level == 1){
+        $('#gameboard').append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
+      }
+
+      if(level == 2){
+        $('#gameboard').append($('<button id="secondlevel"></button>').text('Well done! On to the next round.'));
+      }
+
+      if(level == 3){
+        level = 0;
+        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats you win!!'));
+      }
     }
   };
 
@@ -206,38 +218,7 @@ var Game = function(){
     $("#playagain").remove();
     generateLocation();
     animloop();
-  };
-
-  // SECOND LEVEL
-  this.proceedSecondLevel = function () {
-    timeStarted       = new Date().getTime();
-    currentTime       = new Date().getTime();
-    timeRemain        = timerLimit;
-    score             = 0;
-    locations         = [];
-    locationDatabase  = [];
-    textBox           = "";
-    $(".location").remove();
-    $("#secondlevel").remove();
-    var $gameboard = $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
-    generateLocation2();
-    animloop();
-  };
-
-  // THIRD LEVEL
-  this.proceedThirdLevel = function () {
-    timeStarted       = new Date().getTime();
-    currentTime       = new Date().getTime();
-    timeRemain        = timerLimit;
-    score             = 0;
-    locations         = [];
-    locationDatabase  = [];
-    textBox           = "";
-    $(".location").remove();
-    $("#secondlevel").remove();
-    var $gameboard = $('#gameboard').css('background-image', 'url("images/###background.jpeg")');
-    generateLocation2();
-    animloop();
+    $('#gameboard').css('background-image', 'url("images/city2.jpg")');
   };
 
 };
