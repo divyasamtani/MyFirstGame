@@ -20,8 +20,8 @@ var Location = function(opts){
     while(characters.length){
       scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0];
     }
-    // that.scrambled = scrambled;
-    that.scrambled = name
+    that.scrambled = scrambled;
+    // that.scrambled = name
   };
 
   // CREATES WORD DIV AND USES SCRAMBLE FUNCTION
