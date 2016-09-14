@@ -6,9 +6,7 @@ $(document).ready(function(){
   $("#timer").hide();
   $("#label").hide();
   $("#inputForm").hide();
-
   $("button#startgame").on("click", game.start);
-
-
+  $(document).on("click","button#playagain", game.startGameAgain);
 });
 

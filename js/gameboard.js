@@ -12,14 +12,14 @@ return  window.requestAnimationFrame       ||
 // MAIN GAME OBJECT
 var Game = function(){
 
-  var $gameboard = $('#gameboard').css('background-image', 'url("images/citygamebackground.jpeg")'); // Gameboard reference
+  var $gameboard = $('#gameboard').css('background-image', 'url("images/cityimage.jpeg")'); // Gameboard reference
   var gameWidth  = $gameboard.width(); // Width of gameboard
   var gameHeight = $gameboard.height(); // Height of gameboard
   var gameLoop   = null;
 
   // INITIALIZATED SETTINGS, NEEDS TO BE RESET EVERY GAME
   var score             = 0;
-  var currentTime       = new Date().getTime(); // Current time stamp for name generation control
+  var currentTime       = null; // Current time stamp for name generation control
   var timeStarted       = null; // Current time stamp for timer control
   var timeRemain        = null;
   var locations         = [];
@@ -27,11 +27,11 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 1500;
+  var generationDelay   = 100;
   var generationControl = true;
-  var dropSpeed         = 0.8;
+  var dropSpeed         = 10;
   var lifeLimit         = 3;
-  var timerLimit        = 20000; // 60 seconds
+  var timerLimit        = 5000; // 60 seconds
   var locationYStart    = 0;
 
 
@@ -59,12 +59,12 @@ var Game = function(){
     for (var i = 0; i < locations.length; i++) { // Remove locations before displaying "play again" message
       locations[i].element.remove();
     }
-    $gameboard.append($('<button class="playagain"></button>').text(message)); // Display "Play again?"" message
+    $gameboard.append($('<button id="playagain"></button>').text(message)); // Display "Play again?"" message
+
   };
 
   // CHECK WIN or LOSE FUNCTION - IF TIMER RUNS OUT AND LIFELIMIT > 0
   var checkWinLose = function (newTime) {
-
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame('Game over! Do you want to play again?'); //
 
@@ -80,7 +80,7 @@ var Game = function(){
     var timePast = timeNow - timeStarted;
     timeRemain   = timerLimit - timePast;
     timeRemain   = Math.round(timeRemain / 1000);
-    $gameboard.append($('#timer').text("Time remaining" + " " + "=" + " " + timeRemain)); // Displays time remaining on the timer
+    $('#timer').text("Time" + " " + "=" + " " + timeRemain + " " +"seconds"); // Displays time remaining on the timer
   };
 
   // MATCH KEY INPUT WITH LOCATION ON SCREEN
@@ -112,6 +112,8 @@ var Game = function(){
       } else if (locations[i].collision(gameHeight)) { // Detects collision
         locationsToRemove.push(i); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
+        $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "left"); // Displays lives remaining
+
       }
     }
 
@@ -124,7 +126,6 @@ var Game = function(){
 
     countDownTime();
     checkWinLose(newTime);
-
   }; //END OF GAME LOOP
 
   // ANIMATION LOOP FUNCTION
@@ -135,10 +136,11 @@ var Game = function(){
 
   // START GAME FUNCTION
   this.start = function () {
-    timeStarted  = new Date().getTime(); // Starts time
-    timeRemain = timerLimit; // Time remaining = 60 seconds
-    generateLocation(); // Blocks start generating
-    animloop(); // Starts game / animation loop / generation of names
+    timeStarted         = new Date().getTime(); // Starts time
+    currentTime         = new Date().getTime();
+    timeRemain          = timerLimit; // Time remaining = 60 seconds
+    generateLocation();   // Blocks start generating
+    animloop();           // Starts game / animation loop / generation of names
     keyInput ();
     $("#menu").hide();
     $("#gameboard").show();
@@ -148,20 +150,18 @@ var Game = function(){
   };
 
   // PLAY AGAIN FUNCTION
-  var playagain = function () {
-    $(".playagain").click(function () {
-      timeStarted       =  new Date().getTime();
-      currentTime       =  new Date().getTime();
-      timeStarted       =  null;
-      timeRemain        =  timerLimit;
-      score             =  0;
-      locations         = [];
-      locationDatabase  = [];
-      textBox           = "";
-      $("#gameboard").empty();
-      generateLocation();
-      animloop();
-    });
-  }
-
+  this.startGameAgain = function () {
+    timeStarted       = new Date().getTime();
+    currentTime       = new Date().getTime();
+    timeRemain        = timerLimit;
+    score             = 0;
+    lifeLimit         = 3;
+    locations         = [];
+    locationDatabase  = [];
+    textBox           = "";
+    $(".location").remove();
+    $("#playagain").remove();
+    generateLocation();
+    animloop();
+  };
 };

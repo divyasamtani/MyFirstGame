@@ -43,11 +43,20 @@
 }
 
 #timer {
-  padding: 20px;
-  margin: 20px;
+  padding: 10px;
+  margin: 10px;
   width: 150px;
   border: solid black 2px;
   background-color: #e4ffd4;
+  border-radius: 25px;
+}
+
+#lifeCounter {
+  padding: 10px;
+  margin: 10px;
+  width: 150px;
+  border: solid black 2px;
+  background-color: #ffdad4;
   border-radius: 25px;
 }
 
@@ -77,11 +86,20 @@ label {
 
 }
 
-.playagain {
+#playagain {
   height: 150px;
   width: 400px;
   margin-left: 200px;
   margin-top: 60px;
   font-size: 30px;
 
+}
+
+background-image {
+  max-width: 100%;
+}
+
+#gameboard {
+  background-repeat: no-repeat;
+  background-size: cover;
 }
