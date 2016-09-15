@@ -28,7 +28,7 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 5000;
+  var generationDelay   = 2000;
   var generationControl = true;
   var dropSpeed         = 2;
   var lifeLimit         = 3;
@@ -88,6 +88,7 @@ var Game = function(){
 
     if(level == 1){
       $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
+      levelOne.pause();
       playlevelTwo();
     }
 
@@ -103,6 +104,7 @@ var Game = function(){
   var checkWinLose = function (newTime) {
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame();
+      levelOne.pause();
       playgameOver ();
       level = 0;
       missedNames = locationMissed.join(", ");
@@ -233,6 +235,9 @@ var Game = function(){
     $("#playagain").remove();
     generateLocation();
     animloop();
+    playlevelOne ();
+    levelTwo.pause();
+    levelThree.pause();
     $('#gameboard').css('background-image', 'url("images/city3.png")');
   };
 

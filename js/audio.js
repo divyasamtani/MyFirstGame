@@ -2,10 +2,9 @@
 // Background Music for each level
 
 var levelOne = new Audio();
-levelOne.src = "audio/game_loop.m4a"
+levelOne.src = "audio/levelone.mp3"
 
 playlevelOne = function(){
-  levelOne.loop = true;
   levelOne.play();
 };
 
