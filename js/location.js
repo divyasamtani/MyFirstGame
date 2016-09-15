@@ -36,6 +36,10 @@ var Location = function(opts){
   scrambleName(this);
   create(this);
 
+  this.getName = function () {
+    return name;
+  }
+
   this.matchWord = function(textBox){
     return textBox.toUpperCase() === name;
   };

@@ -1,3 +1,8 @@
+body {
+  padding:0px;
+  margin:0px;
+  background-color: black;
+}
 
 #topbar {
   color: white;
@@ -5,7 +10,7 @@
   text-align: center;
   font-size: 50px;
   padding-top: 10px;
-  height: 80px;
+  height: 70px;
   margin: 0;
   font-family: 'Chewy', cursive;
   text-transform: uppercase;
@@ -16,20 +21,30 @@
   width: 70%;
   font-size: 25px;
   text-align: center;
-  padding: 50px;
   border: solid black 2px;
   margin-left: 160px;
-  margin-top: 60px;
   padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 120px;
   background-color: #d4e5ff;
   font-family: 'Gudea', sans-serif;
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 40px;
 }
 
 #startgame {
   height: 50px;
   width: 200px;
   font-size: 20px;
-
+  margin-top: 10px;
+  border: solid black 1px;
+  background-color: #202060;
+  color: white;
 }
 
 #gameboard {
@@ -40,9 +55,13 @@
   padding: 10px;
   position:relative;
   overflow:hidden;
-  margin-top: 20px;
   font-family: 'Josefin Sans', sans-serif;
+  background-color: black;
 
+}
+
+#counters {
+  display:inline-block;
 }
 
 #timer {
@@ -84,7 +103,7 @@
 #inputForm {
   height: 50px;
   width: 210px;
-  margin-left: 600px;
+  margin-left: 580px;
   margin-top: 10px;
   margin-bottom: 50px;
   font-family: 'Josefin Sans', sans-serif;
@@ -95,31 +114,27 @@
 
 label {
   display: block;
-  margin-left: 635px;
+  margin-left: 610px;
+  margin-top: 10px;
   font-size: 20px;
-  margin-top: 20px;
   font-family: 'Gudea', sans-serif;
-
+  color: white;
 }
 
-#playagain {
-  height: 150px;
-  width: 400px;
-  margin-left: 205px;
+#nextlevel, #playagain {
+  position: absolute;
+  top:50%;
+  left: 50%;
+  margin-left: -210px;
+  margin-top: -160px;
+  height: 300px;
+  width: 420px;
   font-size: 30px;
-  background-color: #e6ffff;
-  border: solid black 2px;
-  font-family: 'Josefin Sans', sans-serif;
-
-}
-
-#nextlevel {
-  height: 150px;
-  width: 400px;
-  margin-left: 205px;
+  display: inline-block;
   font-size: 30px;
+  padding-bottom: 15px;
   background-color: #e6ffff;
-  border: solid black 2px;
+  border: solid black 5px;
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -130,4 +145,5 @@ background-image {
 #gameboard {
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
 }

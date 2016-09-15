@@ -24,14 +24,15 @@ var Game = function(){
   var timeRemain        = null;
   var locations         = [];
   var locationDatabase  = []; // Set it to empty to begin with
+  var locationMissed    = [];
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 2000;
+  var generationDelay   = 1000;
   var generationControl = true;
-  var dropSpeed         = 2;
+  var dropSpeed         = 20;
   var lifeLimit         = 3;
-  var timerLimit        = 10000; // 60 seconds
+  var timerLimit        = 20000; // 60 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
@@ -85,8 +86,6 @@ var Game = function(){
     $("#inputForm").val("");
     animloop();
 
-    console.log("Change backgound to level: " + level);
-
     if(level == 1){
       $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
     }
@@ -102,7 +101,8 @@ var Game = function(){
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame();
       level = 0;
-      $('#gameboard').append($('<button id="playagain"></button>').text('Game Over! Do you Want to Play Again?'));
+      missedNames = locationMissed.join(", ");
+      $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>Game over!</b></p> <p>The names you missed were: </p>" +missedNames + "<p><b>Try again!</b></p>"));
     } else if (lifeLimit > 0 && timeRemain <= 0 ) { // Else if lives > 0 when timer = 0, player wins
       stopGame();
 
@@ -111,18 +111,16 @@ var Game = function(){
       console.log("Display button for level: " + level);
 
       if(level == 1){
-        $('#gameboard').append($('<button id="nextlevel"></button>').text('Well done! On to Round 2 - Beach Destinations.'));
-        $(".location").css("background-color", "red");
+        $('#gameboard').append($('<button id="nextlevel"></button>').html("<p>Well done, crushed it! On to Round Two:</p> <p><b>Famous Beach Destinations.</b></p>"));
       }
 
       if(level == 2){
-        $('#gameboard').append($('<button id="nextlevel"></button>').text('Ooh you are good at this! On to the Final Round - Bodies of Water. These can include Oceans, Seas, Lakes and Rivers.'));
-        // $('.location').css('background-color': 'blue')
+        $('#gameboard').append($('<button id="nextlevel"></button>').html("<p>Ooh you are good at this! On to the Third and Final Round.</p> <p><b> Bodies of Water.</b></p> <p> These can include: <b>Oceans, Seas, Lakes and Rivers.</b></p>"));
       }
 
       if(level == 3){
         level = 0;
-        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats! You won with a total score of' + ' ' + score + ' points.' + ' ' + 'Click if you want to play again.'));
+        $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>WHOA, </b> You Won! Someone is a <b>Serious Traveller!</b> <p>Play again to beat your score of " + score + " Points.</p>"));
       }
     }
   };
@@ -169,13 +167,14 @@ var Game = function(){
         locationsToRemove.push(i); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
         $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
-
       }
     }
+
 
     // REMOVES LOCATIONS THAT HAVE COLLIDED WITH THE GROUND
     for (var i = 0; i < locationsToRemove.length; i++) {
       var index = locationsToRemove[i]; // Index of object that has been removed
+      locationMissed.push(locations[index].getName());
       locations[index].element.remove(); // Physically remove that object off the gameboard
       locations.splice(index, 1); // Splice or remove that element from the locations array
     }
@@ -218,8 +217,10 @@ var Game = function(){
     score             = 0;
     lifeLimit         = 3;
     locations         = [];
+    locationMissed    = [];
     locationDatabase  = [];
     textBox           = "";
+    $("#inputForm").val("");
     $(".location").remove();
     $("#playagain").remove();
     generateLocation();
