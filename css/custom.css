@@ -6,7 +6,7 @@
   font-size: 50px;
   padding-top: 10px;
   height: 80px;
-  margin: auto 0;
+  margin: 0;
   font-family: 'Chewy', cursive;
   text-transform: uppercase;
 }
@@ -47,7 +47,7 @@
 
 #timer {
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   width: 150px;
   border: solid black 2px;
   background-color: #ccffe6;
@@ -56,10 +56,19 @@
 
 #lifeCounter {
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   width: 150px;
   border: solid black 2px;
   background-color: #ffdad4;
+  border-radius: 25px;
+}
+
+#scoreTracker {
+  padding: 10px;
+  margin: 5px;
+  width: 150px;
+  border: solid black 2px;
+  background-color: #ffffcc;
   border-radius: 25px;
 }
 
@@ -67,7 +76,8 @@
 .location {
   position: absolute;
   padding: 5px;
-  background-color: #ffffe6;
+  background-color: #ffe6cc;
+  border: 1px solid black;
 }
 
 
@@ -96,9 +106,8 @@ label {
   height: 150px;
   width: 400px;
   margin-left: 205px;
-  margin-top: 30px;
   font-size: 30px;
-  background-color: #d4e5ff;
+  background-color: #e6ffff;
   border: solid black 2px;
   font-family: 'Josefin Sans', sans-serif;
 
@@ -108,9 +117,8 @@ label {
   height: 150px;
   width: 400px;
   margin-left: 205px;
-  margin-top: 30px;
   font-size: 30px;
-  background-color: #d4e5ff;
+  background-color: #e6ffff;
   border: solid black 2px;
   font-family: 'Josefin Sans', sans-serif;
 }

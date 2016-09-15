@@ -29,7 +29,7 @@ var Game = function(){
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
   var generationDelay   = 2000;
   var generationControl = true;
-  var dropSpeed         = 0.5;
+  var dropSpeed         = 2;
   var lifeLimit         = 3;
   var timerLimit        = 10000; // 60 seconds
   var locationYStart    = 0;
@@ -77,7 +77,6 @@ var Game = function(){
     timeStarted       = new Date().getTime();
     currentTime       = new Date().getTime();
     timeRemain        = timerLimit;
-    score             = 0;
     locations         = [];
     locationDatabase  = [];
     textBox           = "";
@@ -112,18 +111,18 @@ var Game = function(){
       console.log("Display button for level: " + level);
 
       if(level == 1){
-        $('#gameboard').append($('<button id="nextlevel"></button>').text('Well Done! On to Round 2 - Beach Destinations.'));
+        $('#gameboard').append($('<button id="nextlevel"></button>').text('Well done! On to Round 2 - Beach Destinations.'));
         $(".location").css("background-color", "red");
       }
 
       if(level == 2){
-        $('#gameboard').append($('<button id="nextlevel"></button>').text('Very Nice! On to the Final Round - Bodies of Water.'));
+        $('#gameboard').append($('<button id="nextlevel"></button>').text('Ooh you are good at this! On to the Final Round - Bodies of Water. These can include Oceans, Seas, Lakes and Rivers.'));
         // $('.location').css('background-color': 'blue')
       }
 
       if(level == 3){
         level = 0;
-        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats, You Win! You are one Serious Traveler.'));
+        $('#gameboard').append($('<button id="playagain"></button>').text('Congrats! You won with a total score of' + ' ' + score + ' points.' + ' ' + 'Click if you want to play again.'));
       }
     }
   };
@@ -135,7 +134,7 @@ var Game = function(){
     var timePast = timeNow - timeStarted;
     timeRemain   = timerLimit - timePast;
     timeRemain   = Math.round(timeRemain / 1000);
-    $('#timer').text("Time" + " " + "=" + " " + timeRemain + " " +"Seconds"); // Displays time remaining on the timer
+    $('#timer').text("TIME" + " " + "=" + " " + timeRemain + " " +"Seconds"); // Displays time remaining on the timer
   };
 
   // MATCH KEY INPUT WITH LOCATION ON SCREEN
@@ -162,12 +161,14 @@ var Game = function(){
 
       if (locations[i].matchWord(textBox)){ //Checks for match with text box and location in the current array
         locationsToRemove.push(i); // Removes location once matched
+        score = score + 2;
+        $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
         $("#inputForm").val(""); // Clears input field
 
       } else if (locations[i].collision(gameHeight)) { // Detects collision
         locationsToRemove.push(i); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
-        $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
+        $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
 
       }
     }
@@ -203,7 +204,8 @@ var Game = function(){
     $("#timer").show();
     $("#label").show();
     $("#inputForm").show();
-    $('#lifeCounter').text("Life" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
+    $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
+    $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
 
 
   };
