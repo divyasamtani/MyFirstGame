@@ -28,11 +28,11 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 1000;
+  var generationDelay   = 5000;
   var generationControl = true;
-  var dropSpeed         = 20;
+  var dropSpeed         = 2;
   var lifeLimit         = 3;
-  var timerLimit        = 20000; // 60 seconds
+  var timerLimit        = 10000; // 60 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
@@ -88,10 +88,13 @@ var Game = function(){
 
     if(level == 1){
       $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
+      playlevelTwo();
     }
 
     if(level == 2){
       $('#gameboard').css('background-image', 'url("images/underwater4.jpg")');
+      levelTwo.pause();
+      playlevelThree();
     }
   }
 
@@ -100,18 +103,19 @@ var Game = function(){
   var checkWinLose = function (newTime) {
     if (lifeLimit === 0) {  // Player loses if collision occurs three times, game stops
       stopGame();
+      playgameOver ();
       level = 0;
       missedNames = locationMissed.join(", ");
-      $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>Game over!</b></p> <p>The names you missed were: </p>" +missedNames + "<p><b>Try again!</b></p>"));
+      $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>Game over!</b></p> <p>The names you missed were: </p>" + missedNames + "<p><b>Try again!</b></p>"));
     } else if (lifeLimit > 0 && timeRemain <= 0 ) { // Else if lives > 0 when timer = 0, player wins
       stopGame();
 
       level++;
-
-      console.log("Display button for level: " + level);
+      playnextLevel();
 
       if(level == 1){
         $('#gameboard').append($('<button id="nextlevel"></button>').html("<p>Well done, crushed it! On to Round Two:</p> <p><b>Famous Beach Destinations.</b></p>"));
+
       }
 
       if(level == 2){
@@ -121,6 +125,7 @@ var Game = function(){
       if(level == 3){
         level = 0;
         $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>WHOA, </b> You Won! Someone is a <b>Serious Traveller!</b> <p>Play again to beat your score of " + score + " Points.</p>"));
+        playgameWon ();
       }
     }
   };
@@ -158,25 +163,28 @@ var Game = function(){
       locations[i].render(); // Renders and moves the blocks downwards
 
       if (locations[i].matchWord(textBox)){ //Checks for match with text box and location in the current array
-        locationsToRemove.push(i); // Removes location once matched
+        locationsToRemove.push({index: i, matched: true}); // Removes location once matched
+        playmatchWord ();
         score = score + 2;
         $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
         $("#inputForm").val(""); // Clears input field
 
       } else if (locations[i].collision(gameHeight)) { // Detects collision
-        locationsToRemove.push(i); // Pushes collided name to 'remove' array
+        locationsToRemove.push({index: i, matched: false}); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
+        playlifeLost();
         $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
       }
     }
 
-
     // REMOVES LOCATIONS THAT HAVE COLLIDED WITH THE GROUND
     for (var i = 0; i < locationsToRemove.length; i++) {
-      var index = locationsToRemove[i]; // Index of object that has been removed
-      locationMissed.push(locations[index].getName());
-      locations[index].element.remove(); // Physically remove that object off the gameboard
-      locations.splice(index, 1); // Splice or remove that element from the locations array
+      var toRemove = locationsToRemove[i]; // Index of object that has been removed
+      if (!toRemove.matched){
+        locationMissed.push(locations[toRemove.index].getName());
+      }
+      locations[toRemove.index].element.remove(); // Physically remove that object off the gameboard
+      locations.splice(toRemove.index, 1); // Splice or remove that element from the locations array
     }
     countDownTime();
     checkWinLose(newTime);
@@ -205,7 +213,7 @@ var Game = function(){
     $("#inputForm").show();
     $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
     $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
-
+    playlevelOne ();
 
   };
 
