@@ -6,6 +6,7 @@ levelOne.src = "audio/levelone.mp3"
 
 playlevelOne = function(){
   levelOne.play();
+  levelOne.loop();
 };
 
 
@@ -47,7 +48,7 @@ playgameOver = function(){
 // Game won, next level and match word sounds
 
 var matchWord = new Audio();
-  matchWord.src = "audio/wordmatch.wav"
+  matchWord.src = "audio/wordmatch"
 
 playmatchWord = function(){
   matchWord.play();

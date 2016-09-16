@@ -15,10 +15,10 @@ var Location = function(opts){
 
   // SCRAMBLES THE NAME
   var scrambleName = function (that){
-    var characters = name.split('');
-    var scrambled  = '';
+    var characters = name.split(''); //Split string into an array
+    var scrambled  = ''; //create empty string
     while(characters.length){
-      scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0];
+      scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0]; //pick random elements from the array and splicing them back into a string
     }
     that.scrambled = scrambled;
     // that.scrambled = name

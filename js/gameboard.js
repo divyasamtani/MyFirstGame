@@ -30,9 +30,9 @@ var Game = function(){
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
   var generationDelay   = 2000;
   var generationControl = true;
-  var dropSpeed         = 2;
+  var dropSpeed         = 1;
   var lifeLimit         = 3;
-  var timerLimit        = 10000; // 60 seconds
+  var timerLimit        = 5000; // 60 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
@@ -127,6 +127,8 @@ var Game = function(){
       if(level == 3){
         level = 0;
         $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>WHOA, </b> You Won! Someone is a <b>Serious Traveller!</b> <p>Play again to beat your score of " + score + " Points.</p>"));
+        levelThree.pause();
+        nextLevel.pause();
         playgameWon ();
       }
     }
@@ -221,11 +223,15 @@ var Game = function(){
 
   // PLAY AGAIN
   this.startGameAgain = function () {
+    score             = 0;
+    $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
+    lifeLimit         = 3;
+    $('#lifeCounter').text("LIFE" + " " + "=" + " " + lifeLimit + " " + "Left"); // Displays lives remaining
     timeStarted       = new Date().getTime();
     currentTime       = new Date().getTime();
     timeRemain        = timerLimit;
-    score             = 0;
-    lifeLimit         = 3;
+    generateLocation();
+    animloop();
     locations         = [];
     locationMissed    = [];
     locationDatabase  = [];
@@ -233,12 +239,11 @@ var Game = function(){
     $("#inputForm").val("");
     $(".location").remove();
     $("#playagain").remove();
-    generateLocation();
-    animloop();
-    playlevelOne ();
+    $('#gameboard').css('background-image', 'url("images/city3.png")');
     levelTwo.pause();
     levelThree.pause();
-    $('#gameboard').css('background-image', 'url("images/city3.png")');
+    playlevelOne ();
+
   };
 
 };
