@@ -6,7 +6,8 @@ levelOne.src = "audio/levelone.mp3"
 
 playlevelOne = function(){
   levelOne.play();
-  levelOne.loop();
+  levelOne.loop = true;
+
 };
 
 

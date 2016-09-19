@@ -103,20 +103,27 @@ h2 {
 }
 
 
+#inputdiv {
+  position: relative;
+  margin: auto;
+  width: 200px;
+}
+
 #inputForm {
   height: 50px;
   width: 210px;
+  display: inline-block;
+  margin: auto;
+  position: absolute;
   margin-top: 20px;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 20px;
   text-transform: uppercase;
-
 }
 
 label {
   display: inline-block;
   position: relative;
-  margin-left: 700px;
   margin-top: 10px;
   font-size: 20px;
   font-family: 'Gudea', sans-serif;
@@ -143,3 +150,4 @@ label {
 background-image {
   max-width: 100%;
 }
+
