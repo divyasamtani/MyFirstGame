@@ -28,11 +28,11 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 4000;
+  var generationDelay   = 2000;
   var generationControl = true;
-  var dropSpeed         = 0.3;
+  var dropSpeed         = 1;
   var lifeLimit         = 3;
-  var timerLimit        = 30000; // 60 seconds
+  var timerLimit        = 20000; // 20 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
