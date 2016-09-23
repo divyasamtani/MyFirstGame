@@ -14,11 +14,11 @@ var Location = function(opts){
   };
 
   // SCRAMBLES THE NAME
-  var scrambleName = function (that){
+  var scrambleName = function (that){ //Use 'that' because 'this' within this function does not mean 'this', but 'that' = 'this'
     var characters = name.split(''); //Split string into an array
     var scrambled  = ''; //create empty string
     while(characters.length){
-      scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0]; //pick random elements from the array and splicing them back into a string
+      scrambled += characters.splice(Math.floor(Math.random() * characters.length), 1)[0]; //pick random elements from the array and splice them back into a string
     }
     that.scrambled = scrambled;
     // that.scrambled = name
@@ -26,20 +26,21 @@ var Location = function(opts){
 
   // CREATES WORD DIV AND USES SCRAMBLE FUNCTION
   var create = function(that){
-    that.element     = $('<div class="location"></div>').text(that.scrambled);
-    $gameboard.append(that.element);
-    width            = that.element.width();
-    position.x       = Math.round(Math.random() * ($gameboard.width() - width));
-    that.element.css('left', position.x + "px");
+    that.element     = $('<div class="location"></div>').text(that.scrambled); //creates div element using scrambled name
+    $gameboard.append(that.element); //append location element to gameboard
+    width            = that.element.width(); //sets location width
+    position.x       = Math.round(Math.random() * ($gameboard.width() - width)); //randomize position of location elementwithin gameboard
+    that.element.css('left', position.x + "px"); //set the position of location element
   };
 
-  scrambleName(this);
-  create(this);
+  scrambleName(this); //run the scramble function
+  create(this); //run the create function
 
   this.getName = function () {
     return name;
   }
 
+  // MATCHES LOCATION NAME TO INPUT TEXT
   this.matchWord = function(textBox){
     return textBox.toUpperCase() === name;
   };

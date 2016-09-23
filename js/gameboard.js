@@ -28,11 +28,11 @@ var Game = function(){
   var textBox           = "";
 
   // STANDARD SETTINGS THAT AFFECT GAME PLAY
-  var generationDelay   = 2000;
+  var generationDelay   = 4000;
   var generationControl = true;
-  var dropSpeed         = 1;
+  var dropSpeed         = 0.3;
   var lifeLimit         = 3;
-  var timerLimit        = 5000; // 60 seconds
+  var timerLimit        = 30000; // 60 seconds
   var locationYStart    = 0;
 
   var databases         =  ["locationDatabase","locationDatabase2","locationDatabase3"];
@@ -73,6 +73,7 @@ var Game = function(){
     }
   };
 
+  //START NEXT LEVEL
   this.nextLevel = function() {
 
     timeStarted       = new Date().getTime();
@@ -86,13 +87,13 @@ var Game = function(){
     $("#inputForm").val("");
     animloop();
 
-    if(level == 1){
+    if(level === 1){
       $('#gameboard').css('background-image', 'url("images/beach6.jpg")');
       levelOne.pause();
       playlevelTwo();
     }
 
-    if(level == 2){
+    if(level === 2){
       $('#gameboard').css('background-image', 'url("images/underwater4.jpg")');
       levelTwo.pause();
       playlevelThree();
@@ -115,16 +116,16 @@ var Game = function(){
       level++;
       playnextLevel();
 
-      if(level == 1){
+      if(level === 1){
         $('#gameboard').append($('<button id="nextlevel"></button>').html("<p>Well done, crushed it! On to Round Two:</p> <p><b>Famous Beach Destinations.</b></p>"));
 
       }
 
-      if(level == 2){
+      if(level === 2){
         $('#gameboard').append($('<button id="nextlevel"></button>').html("<p>Ooh you are good at this! On to the Third and Final Round.</p> <p><b> Bodies of Water.</b></p> <p> These can include: <b>Oceans, Seas, Lakes and Rivers.</b></p>"));
       }
 
-      if(level == 3){
+      if(level === 3){
         level = 0;
         $('#gameboard').append($('<button id="playagain"></button>').html("<p><b>WHOA, </b> You Won! Someone is a <b>Serious Traveller!</b> <p>Play again to beat your score of " + score + " Points.</p>"));
         levelThree.pause();
@@ -153,7 +154,9 @@ var Game = function(){
     });
   };
 
-  // MAIN GAME LOOP OBJECT
+// MAIN GAME LOOP OBJECT
+
+  // GENERATE LOCATION OBJECT
   var loop = function() {
     var newTime = new Date().getTime(); // Sets the delay between location objects being generated on screen
     if (generationControl && currentTime + generationDelay <= newTime) { // Allows for control over the generation delay
@@ -166,6 +169,8 @@ var Game = function(){
     for (var i = 0; i < locations.length; i++) {
       locations[i].render(); // Renders and moves the blocks downwards
 
+
+      //MATCH WORD, PUSH TO EMPTY ARRAY, UPDATE SCORE AND CLEAR INPUT FIELD
       if (locations[i].matchWord(textBox)){ //Checks for match with text box and location in the current array
         locationsToRemove.push({index: i, matched: true}); // Removes location once matched
         playmatchWord ();
@@ -173,6 +178,7 @@ var Game = function(){
         $('#scoreTracker').text("SCORE" + " " + "=" + " " + score + " " + "Points"); // Tracks score
         $("#inputForm").val(""); // Clears input field
 
+        //DETECTS COLLISION, PUSHES TO SEPARATE ARRAY AND UPDATES LIFE COUNTER
       } else if (locations[i].collision(gameHeight)) { // Detects collision
         locationsToRemove.push({index: i, matched: false}); // Pushes collided name to 'remove' array
         lifeLimit --; // Reduce one life from total count
@@ -181,11 +187,11 @@ var Game = function(){
       }
     }
 
-    // REMOVES LOCATIONS THAT HAVE COLLIDED WITH THE GROUND
+    // SPECIFIC ERRAY FOR ELEMENTS THAT HAVE COLLIDED WITH THE GROUND TO DISPLAY LATER
     for (var i = 0; i < locationsToRemove.length; i++) {
-      var toRemove = locationsToRemove[i]; // Index of object that has been removed
-      if (!toRemove.matched){
-        locationMissed.push(locations[toRemove.index].getName());
+      var toRemove = locationsToRemove[i]; // Set index of remove array
+      if (!toRemove.matched){ //If the location name was not matched
+        locationMissed.push(locations[toRemove.index].getName()); //Populates array of names missed to display at end using 'get name' function for the locations to remove array
       }
       locations[toRemove.index].element.remove(); // Physically remove that object off the gameboard
       locations.splice(toRemove.index, 1); // Splice or remove that element from the locations array
